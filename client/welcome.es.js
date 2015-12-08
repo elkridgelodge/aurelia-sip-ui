@@ -1,8 +1,12 @@
 import {computedFrom} from 'aurelia-framework';
+import {Router} from 'aurelia-router';
 
 export class Welcome{
 
-  constructor(){
+  static inject() {return [Router]; }
+
+  constructor(router){
+    this.theRouter = router;
     this.owner = [];
     this.current_user = false;
     Meteor.subscribe("tasks");
@@ -28,7 +32,6 @@ export class Welcome{
     });
   }
 
-
   heading = 'Welcome to the VOIP Site!';
   firstName = '';
   lastName = '';
@@ -44,6 +47,7 @@ export class Welcome{
   }
 
   submit(){
+/*
     var phone = document.getElementById('pn').value
     Session.set("insecureusername", phone)
     var email = document.getElementById('em').value
@@ -69,9 +73,11 @@ export class Welcome{
     } else {
       alert("Missing email")
     }
+*/
     console.log("Form submitted.")
 
     Session.set("infocollectstage", 2)
+    this.theRouter.navigate("users")
 //    this.previousValue = this.fullName;
 //    alert(Tasks.findOne().owner)
 //    alert(`Welcome, ${this.fullName}!`);
