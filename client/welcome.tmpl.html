@@ -1,0 +1,28 @@
+<template>
+  <section class="au-animate">
+    <h2>${heading}</h2>
+    <form role="form" submit.delegate="submit()">
+      <div class="form-group">
+        <label for="fn">First Name</label>
+        <input type="text" value.bind="firstName" class="form-control" id="fn" placeholder="first name">
+      </div>
+      <div class="form-group">
+        <label for="ln">Last Name</label>
+        <input type="text" value.bind="lastName" class="form-control" id="ln" placeholder="last name">
+      </div>
+      <div class="form-group">
+        <label for="pn">Phone Number</label>
+        <input type="text" value.bind="phoneNumber" class="form-control" id="pn" placeholder="phone number">
+      </div>
+      <div class="form-group">
+        <label for="em">E-mail</label>
+        <input type="text" value.bind="eMail" class="form-control" id="em" placeholder="e-mail">
+      </div>
+      <div class="form-group">
+        <label>Full Name</label>
+        <p class="help-block">${fullName | upper}</p>
+      </div>
+      <button type="submit" class="btn btn-default">Submit</button>
+    </form>
+  </section>
+</template>
