@@ -1,24 +1,29 @@
-import {inject} from 'aurelia-framework'
-import {HttpClient} from 'aurelia-fetch-client'
-import {Router} from 'aurelia-router'
+import {inject} from 'aurelia-framework';
+import {HttpClient} from 'aurelia-fetch-client';
+import * as collections from '../../collections';
 
 @inject(HttpClient)
 export class SystemSetup{
+  heading = 'System Setup';
+  users = [];
 
-  static inject() {return [Router]; }
-
-  heading = 'Secondary Checkout'
-  users = []
-
-  constructor(http, router){
-    this.theRouter = router;
+  constructor(http){
     http.configure(config => {
       config
         .useStandardConfiguration()
-        .withBaseUrl('https://api.github.com/')
-    })
+        .withBaseUrl('https://api.github.com/');
+    });
 
-    this.http = http
+    this.http = http;
+    Tracker.autorun(() =>{
+      Meteor.subscribe('AllUsers')
+      let userguy = collections.Users.find({}).fetch()[0]
+      if (userguy) {
+        let username = userguy.username
+      }
+      console.log('from users');
+      console.log(userguy);
+    })
 
     if (!Session.get("didnumber") && Session.get("insecureusername")) {
       //console.log("trying")
@@ -42,8 +47,8 @@ export class SystemSetup{
 
   insecureusername = Session.get("insecureusername")
 
-  canActivate(){
-    if (Meteor.userId() &&  Meteor.users.findOne({_id: Meteor.userId()}) &&  Meteor.users.findOne({_id: Meteor.userId()}).username) {
+  canActivate(username){
+    if (username) {
       if (Session.equals("collectinfostage", 2)) {
         return true
       }
@@ -56,6 +61,6 @@ export class SystemSetup{
   activate(){
     return this.http.fetch('users')
       .then(response => response.json())
-      .then(users => this.users = users)
+      .then(users => this.users = users);
   }
 }

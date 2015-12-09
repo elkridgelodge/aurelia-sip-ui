@@ -1,26 +1,26 @@
 <template>
-  <h2>Company Phone Numbers</h2>
-  <p>Main Number</p>
-  ${mainnumber}
-  <p>Keep Your Existing Number</p>
-  <pre>${didnumber}</pre>
-  <p>Edit &raquo;</p>
-  <p>Fax Number</p>
-  <p>Edit &raquo;</p>
-
-  <h2>Number of Users</h2>
-  <select value=""></select>
-
-  <p>Standard phone for all users Multi-Phone Selection</p>
-  <p>Customized phone selection per user</p>
-
-  <p>Change Phone &raquo;</p>
-
-
-  <require from="client/blur-image"></require>
+  <require from="client/app/blur-image"></require>
 
   <section class="au-animate">
       <h2>${heading}</h2>
+      <div class="col-sm-6 col-md-3 card-container au-animate">
+        <h2>Company Phone Numbers</h2>
+        <p>Main Number</p>
+        <p>${mainnumber}</p>
+        <p>Keep Your Existing Number</p>
+        <p><pre>${didnumber}</pre></p>
+        <p>Edit &raquo;</p>
+        <p>Fax Number</p>
+        <p>Edit &raquo;</p>
+
+        <h2>Number of Users</h2>
+        <select value=""></select>
+
+        <p>Standard phone for all users Multi-Phone Selection</p>
+        <p>Customized phone selection per user</p>
+
+        <p>Change Phone &raquo;</p>
+      </div>
       <div class="row au-stagger">
         <div class="col-sm-6 col-md-3 card-container au-animate" repeat.for="user of users">
             <div class="card">
@@ -29,7 +29,7 @@
                     <img src.bind="user.avatar_url" crossorigin ref="image"/>
                 </div>
                 <div class="content">
-                    <p class="name">${user.login}</p>
+                    <p class="name"></p>
                     <p><a target="_blank" class="btn btn-default" href.bind="user.html_url">Contact</a></p>
                 </div>
             </div>

@@ -1,23 +1,12 @@
 <head>
-  <title>VOIP Site</title>
+  <title>Aurelia</title>
   <link rel="stylesheet" src="styles.css">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 
 <body>
-
-  <div style="position: absolute; top: 10px; z-index: 10000;" class="login">
-    <div style="">
-      {{> loginButtons}}
-    </div>
-  </div>
-
-  {{> main}}
-
+  <div aurelia-app="client/app/main"></div>
   <script>
     System.import('aurelia-bootstrapper')
-    .catch(function(err) {
-     console.log(err);
-    });
   </script>
 </body>

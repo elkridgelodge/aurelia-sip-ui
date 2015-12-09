@@ -1,0 +1,20 @@
+template
+  section.au-animate
+    h2 ${heading}
+    form(role='form', submit.delegate='submit()')
+      .form-group
+        label(for='fn') First Name
+        input#fn.form-control(type='text', value.bind='firstName', placeholder='first name')
+      .form-group
+        label(for='ln') Last Name
+        input#ln.form-control(type='text', value.bind='lastName', placeholder='last name')
+      .form-group
+        label(for='pn') Phone Number
+        input#pn.form-control(type='text', value.bind='phoneNumber', placeholder='phone number')
+      .form-group
+        label(for='em') E-mail
+        input#em.form-control(type='text', value.bind='eMail', placeholder='e-mail')
+      .form-group
+        label Full Name
+        p.help-block ${fullName | upper}
+      button.btn.btn-default(type='submit') Submit
