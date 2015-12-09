@@ -39,7 +39,7 @@ export class Welcome{
 
     console.log("Form submitted.")
 
-    if (Session.get("insecureusername") && Meteor.userId()) {
+    if (Session.get("insecureusername") && Meteor.userId() && Meteor.users.findOne({_id: Meteor.userId()}) && Meteor.users.findOne({_id: Meteor.userId()}).username) {
       Session.set("mainnumber", Meteor.users.findOne({_id: Meteor.userId()}).username)
 console.log(Session.get("mainnumber"))
       this.theRouter.navigate("systemsetup")
@@ -47,12 +47,17 @@ console.log(Session.get("mainnumber"))
   }
 
   canDeactivate() {
-    if (Session.equals("mainnumber", Meteor.users.findOne({_id: Meteor.userId()}).username)) {
+    if (Session.get("mainnumber") && Meteor.users.findOne({_id: Meteor.userId()})) {
       console.log(Meteor.userId())
       console.log(Meteor.users.findOne({_id: Meteor.userId()}))
-      console.log(Meteor.users.findOne({_id: Meteor.userId()}).username)
-      Session.set("collectinfostage", 2)
-      return true
+      if (Meteor.users.findOne({_id: Meteor.userId()}).username) {
+        console.log(Meteor.users.findOne({_id: Meteor.userId()}).username)
+        Session.set("collectinfostage", 2)
+        return true
+      }
+      else {
+        return false
+      }
     }
   }
 }

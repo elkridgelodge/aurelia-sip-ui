@@ -47,6 +47,9 @@ export class SystemSetup{
       if (Session.equals("collectinfostage", 2)) {
         return true
       }
+      else {
+        return false
+      }
     }
   }
 
