@@ -24,7 +24,6 @@ export class Welcome{
   }
 
   submit(){
-    this.theRouter.navigate("systemsetup")
     var phone = document.getElementById('pn').value
     Session.set("insecureusername", phone)
 
@@ -42,7 +41,7 @@ export class Welcome{
     if (Session.get("insecureusername") && Meteor.userId() && Meteor.users.findOne({_id: Meteor.userId()}) && Meteor.users.findOne({_id: Meteor.userId()}).username) {
       Session.set("mainnumber", Meteor.users.findOne({_id: Meteor.userId()}).username)
 console.log(Session.get("mainnumber"))
-      this.theRouter.navigate("systemsetup")
+      this.theRouter.navigate("system-setup")
     }
   }
 
