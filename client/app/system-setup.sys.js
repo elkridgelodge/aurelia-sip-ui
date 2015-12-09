@@ -1,6 +1,7 @@
 import {inject} from 'aurelia-framework';
 import {HttpClient} from 'aurelia-fetch-client';
-import * as collections from '../../collections';
+//import * as collections from '../../collections';
+import {Users} from '../../collections';
 
 @inject(HttpClient)
 export class SystemSetup{
@@ -17,7 +18,7 @@ export class SystemSetup{
     this.http = http;
     Tracker.autorun(() =>{
       Meteor.subscribe('AllUsers')
-      let userguy = collections.Users.find({}).fetch()[0]
+      let userguy = Users.find({}).fetch()[0]
       if (userguy) {
         let username = userguy.username
         console.log('from users');
@@ -26,6 +27,7 @@ export class SystemSetup{
     })
 
     if (!Session.get("didnumber") && Session.get("insecureusername")) {
+/*
       //console.log("trying")
       Meteor.call("didnumber", Session.get("insecureusername"), function (e, r) {
         if (r) {
@@ -38,8 +40,8 @@ export class SystemSetup{
           return "server error"
         }
       })
+*/
     }
-
   }
 
   mainnumber = Meteor.users.findOne({_id: Meteor.userId()}).username
@@ -47,14 +49,12 @@ export class SystemSetup{
 
   insecureusername = Session.get("insecureusername")
 
-  canActivate(username, didnumber){
-    if (username) {
-      if (Session.equals("collectinfostage", 2) && Session.get("didnumber")) {
-        return true
-      }
-      else {
-        return false
-      }
+  canActivate(username){
+    if (username && Session.get("infocollectstage", 2)) {
+      return true
+    }
+    else {
+      return false
     }
   }
 

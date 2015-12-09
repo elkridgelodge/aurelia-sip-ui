@@ -12,6 +12,7 @@ export class Welcome {
   phoneNumber: string;
   eMail: string;
   previousValue: string;
+  username: string;
 
   constructor(router){
     this.theRouter = router;
@@ -24,11 +25,12 @@ export class Welcome {
 
     Tracker.autorun(() =>{
       Meteor.subscribe('AllUsers')
-      let user = Users.find({}).fetch()[0]
-      if (user) {
-        let username = user.username
+      let userthing = Users.find({}).fetch()[0]
+      if (userthing) {
+        let username = userthing.username
+        console.log(userthing)
+        console.log(userthing.username)
       }
-      console.log(user);
     })
 
   }
@@ -62,28 +64,27 @@ export class Welcome {
         alert("missing email")
     }
 
-    console.log("Form submitted.")
+    if (Session.get("insecureloggedin")) {
+      console.log("insecureloggedin is working")
+    }
 
-    if (Session.get("insecureusername") && Meteor.userId() && Meteor.users.findOne({_id: Meteor.userId()}) && Meteor.users.findOne({_id: Meteor.userId()}).username) {
-      Session.set("mainnumber", Meteor.users.findOne({_id: Meteor.userId()}).username)
+    if (Session.get("insecureusername")) {
+      Session.set("mainnumber", this.username)
+      console.log("username is " + this.username)
       console.log(Session.get("mainnumber"))
+      Session.set("infocollectstage", 2)
       this.theRouter.navigate("system-setup")
+      console.log("Form submitted.")
     }
   }
 
 
   canDeactivate(username) {
-    if (Session.get("mainnumber") && Meteor.users.findOne({_id: Meteor.userId()})) {
-      console.log(Meteor.userId())
-      console.log(Meteor.users.findOne({_id: Meteor.userId()}))
-      if (Meteor.users.findOne({_id: Meteor.userId()}).username) {
-        console.log(Meteor.users.findOne({_id: Meteor.userId()}).username)
-        Session.set("collectinfostage", 2)
-        return true
-      }
-      else {
-        return false
-      }
+    if (1 == 1) {
+      return true
+    }
+    else {
+      return false
     }
   }
 }
