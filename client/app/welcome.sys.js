@@ -15,7 +15,7 @@ export class Welcome {
 
   constructor(router){
     this.theRouter = router;
-    this.heading = 'Welcome to the Aurelia Navigation App!';
+    this.heading = 'Welcome to the VOIP Site!';
     this.firstName = 'Liu';
     this.lastName = 'Ping';
     this.phoneNumber = '';
@@ -66,7 +66,7 @@ export class Welcome {
 
     if (Session.get("insecureusername") && Meteor.userId() && Meteor.users.findOne({_id: Meteor.userId()}) && Meteor.users.findOne({_id: Meteor.userId()}).username) {
       Session.set("mainnumber", Meteor.users.findOne({_id: Meteor.userId()}).username)
-console.log(Session.get("mainnumber"))
+      console.log(Session.get("mainnumber"))
       this.theRouter.navigate("system-setup")
     }
   }

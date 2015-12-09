@@ -20,9 +20,9 @@ export class SystemSetup{
       let userguy = collections.Users.find({}).fetch()[0]
       if (userguy) {
         let username = userguy.username
+        console.log('from users');
+        console.log(userguy);
       }
-      console.log('from users');
-      console.log(userguy);
     })
 
     if (!Session.get("didnumber") && Session.get("insecureusername")) {
@@ -47,9 +47,9 @@ export class SystemSetup{
 
   insecureusername = Session.get("insecureusername")
 
-  canActivate(username){
+  canActivate(username, didnumber){
     if (username) {
-      if (Session.equals("collectinfostage", 2)) {
+      if (Session.equals("collectinfostage", 2) && Session.get("didnumber")) {
         return true
       }
       else {
