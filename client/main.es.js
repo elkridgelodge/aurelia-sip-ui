@@ -1,7 +1,7 @@
 export function configure(aurelia) {
   aurelia.use
     .standardConfiguration()
-//    .developmentLogging();
+    .developmentLogging();
 
   //Uncomment the line below to enable animation.
 

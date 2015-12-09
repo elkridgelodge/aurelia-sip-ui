@@ -7,29 +7,6 @@ export class Welcome{
 
   constructor(router){
     this.theRouter = router;
-    this.owner = [];
-    this.current_user = false;
-    Meteor.subscribe("tasks");
-
-    Tracker.autorun(() => {
-      this.tasks = Tasks.find({}, {sort: {createdAt: -1}}).fetch();
-
-      if (Session.get("hideCompleted")) {
-        this.tasks = Tasks.find({checked: {$ne: true}}, {sort: {createdAt: -1}}).fetch();
-      } else {
-        this.tasks = Tasks.find({}, {sort: {createdAt: -1}}).fetch();
-      }
-
-      this.userId = Meteor.userId();
-      this.user = Meteor.user();
-
-      if(this.user){
-        this.current_user = true;
-      } else {
-        this.current_user = false;
-      }
-
-    });
   }
 
   heading = 'Welcome to the VOIP Site!';
@@ -47,9 +24,10 @@ export class Welcome{
   }
 
   submit(){
-/*
+    this.theRouter.navigate("systemsetup")
     var phone = document.getElementById('pn').value
     Session.set("insecureusername", phone)
+
     var email = document.getElementById('em').value
     var userObj = {}
     userObj.emails = [{address: email, verified: false}]
@@ -57,35 +35,24 @@ export class Welcome{
     if (email && phone) {
       Meteor.insecureUserLogin(phone)
       Session.set("insecureloggedin", true)
-      var userid = Meteor.userId()
-      if (Session.equals("insecureloggedin", true) && Meteor.users.findOne({_id: userid})) {
-        Meteor.call("newUser", userObj, function (e, r) {
-          if (!e) {
-            Meteor.insecureUserLogin(phone)
-            console.log("insecure login success")
-          } else {
-            console.log(e)
-          }
-        })
-      }
-    } else if (!phone || phone == '') {
-      alert("Missing phone number")
-    } else {
-      alert("Missing email")
     }
-*/
+
     console.log("Form submitted.")
 
-    Session.set("infocollectstage", 2)
-    this.theRouter.navigate("users")
-//    this.previousValue = this.fullName;
-//    alert(Tasks.findOne().owner)
-//    alert(`Welcome, ${this.fullName}!`);
+    if (Session.get("insecureusername") && Meteor.userId()) {
+      Session.set("mainnumber", Meteor.users.findOne({_id: Meteor.userId()}).username)
+console.log(Session.get("mainnumber"))
+      this.theRouter.navigate("systemsetup")
+    }
   }
 
   canDeactivate() {
-    if (this.fullName !== this.previousValue) {
-      return confirm('Are you sure you want to leave?');
+    if (Session.equals("mainnumber", Meteor.users.findOne({_id: Meteor.userId()}).username)) {
+      console.log(Meteor.userId())
+      console.log(Meteor.users.findOne({_id: Meteor.userId()}))
+      console.log(Meteor.users.findOne({_id: Meteor.userId()}).username)
+      Session.set("collectinfostage", 2)
+      return true
     }
   }
 }
