@@ -20,7 +20,7 @@ export class SystemSetup{
 
     this.http = http
 
-    if (!Session.get("didnumber") && this.user && Session.equals('insecureloggedin', true) && Session.get("insecureusername")) {
+    if (!Session.get("didnumber") && Session.get("insecureusername")) {
       //console.log("trying")
       Meteor.call("didnumber", Session.get("insecureusername"), function (e, r) {
         if (r) {
@@ -37,7 +37,7 @@ export class SystemSetup{
 
   }
 
-  mainnumber = Session.set("mainnumber")
+  mainnumber = Meteor.users.findOne({_id: Meteor.userId()}).username
   didnumber = Session.get("didnumber")
 
   insecureusername = Session.get("insecureusername")

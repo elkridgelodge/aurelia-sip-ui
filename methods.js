@@ -38,7 +38,8 @@ console.log("areacode is " + areacode)
       return result.responseMessage
       return "result was " + Object.keys(result)
     } else {
-      return "guru meditation: " + result.responseCode
+//      return "guru meditation: " + result.responseCode + ' keys: ' + Object.keys(result)
+      return "guru meditation: " + result.responseCode + ' message: ' + result.responseMessage
     }
   },
 })

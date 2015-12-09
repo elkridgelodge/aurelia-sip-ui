@@ -13,7 +13,7 @@ export class Welcome{
   firstName = '';
   lastName = '';
   phoneNumber = '';
-  previousValue = this.fullName;
+  eMail = '';
 
   //Getters can't be observed with Object.observe, so they must be dirty checked.
   //However, if you tell Aurelia the dependencies, it no longer needs to dirty check the property.
