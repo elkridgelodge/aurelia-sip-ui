@@ -6,6 +6,7 @@ import {Users} from '../../collections';
 @inject(HttpClient)
 export class SystemSetup{
   didnumber: string;
+  olddidnumber: string;
 
   heading = 'System Setup';
   users = [];
@@ -42,6 +43,7 @@ export class SystemSetup{
 //  insecureusername = Session.get("insecureusername")
 //  didnumber = Session.get("didnumber")
   didnumber = Session.get("didnumber")
+  olddidnumber = this.didnumber
 
   canActivate(didnumber){
     if (didnumber && didnumber != '' && didnumber != null) {
@@ -76,7 +78,33 @@ export class SystemSetup{
     if (Session.get("didnumber")) { 
       didnumber = Session.get("didnumber")
     }
-    console.log("while activating didnumber was " + didnumber)
+    if (this.didnumber) {
+      console.log("there is a this.didnumber")
+      this.didnumber = Session.get("didnumber")
+    }
+    console.log("and finally i have set didnumber to " + this.didnumber)
+    if (!Session.get("didnumber") && Session.get("mainnumber")) {
+      console.log("attached: username is " + Session.get("mainnumber"))
+      //console.log("trying")
+      this.didnumber = Meteor.call("didnumber", Session.get("mainnumber"), function (e, r) {
+        if (r) {
+          console.log(r)
+          Session.set("didnumber", r)
+//          this.didnumber = r
+//          console.log("attached didnumber from response was " + didnumber)
+          return r
+        } else {
+          console.log(e)
+          Session.set("didnumber", "server error")
+//          this.didnumber = "server error"
+          return "server error"
+        }
+      })
+    } else {
+      didnumber = '9999999'
+      console.log("attached didnumber from session variable was " + didnumber)
+    }
+    console.log("while activating didnumber was " + this.didnumber)
     return this.http.fetch('users')
       .then(response => response.json())
       .then(users => this.users = users);
@@ -84,25 +112,36 @@ export class SystemSetup{
 
   attached() {
     console.log("attached()")
+    console.log("first session.get " + Session.get("didnumber"))
+//    console.log("session set " + Session.set("didnumber", '12345'))
+    console.log("second session.get " + Session.get("didnumber"))
+/*
+    if (this.didnumber) {
+      console.log("there is a this.didnumber")
+      this.didnumber = Session.get("didnumber")
+    }
+    console.log("and finally i have set didnumber to " + this.didnumber)
     if (!Session.get("didnumber") && Session.get("mainnumber")) {
       console.log("attached: username is " + Session.get("mainnumber"))
       //console.log("trying")
-      Meteor.call("didnumber", Session.get("mainnumber"), function (e, r) {
+      this.didnumber = Meteor.call("didnumber", Session.get("mainnumber"), function (e, r) {
         if (r) {
           console.log(r)
           Session.set("didnumber", r)
-          didnumber = r
-          console.log("attached didnumber from response was " + didnumber) 
-//          return r
+//          this.didnumber = r
+//          console.log("attached didnumber from response was " + didnumber) 
+          return r
         } else {
           console.log(e)
           Session.set("didnumber", "server error")
-          mainnumber = "server error"
-//          return "server error"
+//          this.didnumber = "server error"
+          return "server error"
         }
       })
     } else {
+      didnumber = '9999999'
       console.log("attached didnumber from session variable was " + didnumber)
     }
+*/
   }
 }
