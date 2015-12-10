@@ -94,23 +94,6 @@ export class Welcome {
 
   deactivate() {
     console.log('the username is ' + this.username)
-
-      //console.log("trying")
-      Meteor.call("didnumber", this.username, function (e, r) {
-        if (r) {
-          console.log("the response from server method was " + r)
-          Session.set("didnumber", r)
-          return true
-//          return r
-        } else {
-          console.log("error message from server was " + e)
-          Session.set("didnumber", "server error")
-          return false
-//          return "server error"
-        }
-      })
-
-
   }
 }
 
