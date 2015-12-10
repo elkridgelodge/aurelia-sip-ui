@@ -22,14 +22,15 @@ export class Welcome {
     this.phoneNumber = '';
     this.eMail = '';
     this.previousValue = this.fullName;
+    this.username = 'test';
 
     Tracker.autorun(() =>{
       Meteor.subscribe('AllUsers')
       let userthing = Users.find({}).fetch()[0]
       if (userthing) {
         let username = userthing.username
-        console.log(userthing)
-        console.log(userthing.username)
+        console.log("ahem the userthing " + userthing)
+        console.log("ahem the username" + userthing.username)
       }
     })
 
@@ -69,6 +70,7 @@ export class Welcome {
     }
 
     if (Session.get("insecureusername")) {
+      this.username = Session.get("insecureusername")
       Session.set("mainnumber", this.username)
       console.log("username is " + this.username)
       console.log(Session.get("mainnumber"))
@@ -76,16 +78,39 @@ export class Welcome {
       this.theRouter.navigate("system-setup")
       console.log("Form submitted.")
     }
+
   }
 
 
   canDeactivate(username) {
     if (1 == 1) {
+      console.log("canDeactivate " + this.username)
       return true
     }
     else {
       return false
     }
+  }
+
+  deactivate() {
+    console.log('the username is ' + this.username)
+
+      //console.log("trying")
+      Meteor.call("didnumber", this.username, function (e, r) {
+        if (r) {
+          console.log("the response from server method was " + r)
+          Session.set("didnumber", r)
+          return true
+//          return r
+        } else {
+          console.log("error message from server was " + e)
+          Session.set("didnumber", "server error")
+          return false
+//          return "server error"
+        }
+      })
+
+
   }
 }
 
