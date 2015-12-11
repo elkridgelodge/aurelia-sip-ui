@@ -12,7 +12,8 @@ export class Welcome {
   phoneNumber: string;
   eMail: string;
   previousValue: string;
-  username: string;
+  user: string;
+  
 
   constructor(router){
     this.theRouter = router;
@@ -22,15 +23,12 @@ export class Welcome {
     this.phoneNumber = '';
     this.eMail = '';
     this.previousValue = this.fullName;
-    this.username = 'test';
 
     Tracker.autorun(() =>{
       Meteor.subscribe('AllUsers')
-      let userthing = Users.find({}).fetch()[0]
-      if (userthing) {
-        let username = userthing.username
-        console.log("ahem the userthing " + userthing)
-        console.log("ahem the username" + userthing.username)
+      if (Users.find({}).fetch()[0]) {
+        this.user = Users.find({}).fetch()[0].username
+        console.log("this.user " + this.user)
       }
     })
 
@@ -45,6 +43,7 @@ export class Welcome {
   }
 
   submit(){
+    console.log("in the submit function this.user is " + this.user)
     if (document.getElementById('pn').value) {
       var phone = document.getElementById('pn').value
     } else {
@@ -83,17 +82,17 @@ export class Welcome {
 
 
   canDeactivate(username) {
-    if (1 == 1) {
-      console.log("canDeactivate " + this.username)
+    if (Session.equals("insecureloggedin", true)) {
       return true
     }
     else {
+      console.log("couldn't deactivate")
       return false
     }
   }
 
   deactivate() {
-    console.log('the username is ' + this.username)
+    console.log('the username is ' + this.user)
   }
 }
 

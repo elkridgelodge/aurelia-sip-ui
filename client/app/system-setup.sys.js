@@ -37,7 +37,7 @@ export class SystemSetup{
     }
   }
 
-  mainnumber = Meteor.users.findOne({_id: Meteor.userId()}).username
+  mainnumber = Session.get("mainnumber")
 //  didnumber = Session.get("didnumber")
 
 //  insecureusername = Session.get("insecureusername")
@@ -74,7 +74,7 @@ export class SystemSetup{
         }
       })
 */
-    mainnumber = Meteor.users.findOne({_id: Meteor.userId()}).username
+    mainnumber = Session.get("mainnumber")
     if (Session.get("didnumber")) { 
       didnumber = Session.get("didnumber")
     }
@@ -84,9 +84,10 @@ export class SystemSetup{
     }
     console.log("and finally i have set didnumber to " + this.didnumber)
     if (!Session.get("didnumber") && Session.get("mainnumber")) {
+/*
       console.log("attached: username is " + Session.get("mainnumber"))
       //console.log("trying")
-      this.didnumber = Meteor.call("didnumber", Session.get("mainnumber"), function (e, r) {
+      this.didnumber = Meteor.wrapPromise(Meteor.call("didnumber", Session.get("mainnumber"), function (e, r) {
         if (r) {
           console.log(r)
           Session.set("didnumber", r)
@@ -99,15 +100,17 @@ export class SystemSetup{
 //          this.didnumber = "server error"
           return "server error"
         }
-      })
+      }))
+*/
     } else {
       didnumber = '9999999'
       console.log("attached didnumber from session variable was " + didnumber)
     }
     console.log("while activating didnumber was " + this.didnumber)
-    return this.http.fetch('users')
-      .then(response => response.json())
-      .then(users => this.users = users);
+    return Promise.all([
+      this.http.fetch('users').then(response => response.json()).then(users => this.users = users),
+      Meteor.promise("didnumber", Session.get("mainnumber")).then(response => this.didnumber = response)
+    ])
   }
 
   attached() {
