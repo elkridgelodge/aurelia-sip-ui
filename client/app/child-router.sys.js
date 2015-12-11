@@ -4,7 +4,7 @@ export class ChildRouter{
   configureRouter(config, router){
     config.map([
       { route: ['','welcome'],  name: 'welcome',       moduleId: 'client/app/welcome',       nav: true, title:'Welcome' },
-      { route: 'users',         name: 'users',         moduleId: 'client/app/users',         nav: true, title:'Github Users' },
+      { route: 'system-setup',         name: 'system-setup',         moduleId: 'client/app/system-setup',         nav: true, title:'System Setup' },
       { route: 'child-router',  name: 'child-router',  moduleId: 'client/app/child-router',  nav: true, title:'Child Router' }
     ]);
 
