@@ -11,19 +11,42 @@ session                 # Client-side reactive dictionary for your app
 jquery                  # Helpful client-side library
 tracker                 # Meteor's client-side reactive programming library
 
-# ecmascript
+ecmascript
 standard-minifiers      # JS/CSS minifiers run for production mode
 # autopublish             # Publish all data to the clients (for prototyping)
 # insecure                # Allow all DB writes from clients (for prototyping)
 
+## Specific to Meteor Aurelia ###
+
 fortawesome:fontawesome
 twbs:bootstrap
 tsumina:meteor-aurelia
+
+
+### Specific to Meteor GraphQL ###
+
+kadira:graphql
+kadira:flow-router
+kadira:react-layout
+react
+reactive-var
+meteorhacks:npm
+
+
+npm-container
+random
 accounts-password
-accounts-ui
+
+### APPLICATION SPECIFIC ###
+
 http
 mizzao:accounts-testing
 mizzao:user-status
 peerlibrary:xml2js
 reload
 okgrow:promise
+
+### TESTING REMOVE IN PRODUCTION ###
+
+autopublish
+insecure
